@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "kabum-scrapping"
+version = "0.1.0"
+description = "Extração de smartphones disponíveis no site da Kabum"
+authors = ["Daniel L. Alves <daniel.leonssio@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+selenium = "^4.16.0"
+pandas = "^2.1.4"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.28.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
