@@ -16,3 +16,8 @@ O código funciona da seguinte maneira:
 * Incluir coluna do processador do smartphone (se houver na descrição do produto).
 * Corrigir coluna “smartphone model” quando não se pode utilizar o split(‘,’).
 * Coletar dados das demais páginas.
+* Modularizar a extração, transformação e carregamento
+* Carregar em um banco de dados
+* Utilizar docker neste projeto para que seja possível processa-lo em qualquer computador.
+* Atualizar README.md, incluindo todo o passo a passo de como reproduzir o projeto.
+* Criar uma imagem que descreva o workflow do projeto.
