@@ -16,6 +16,7 @@ O código funciona da seguinte maneira:
 * Incluir coluna do processador do smartphone (se houver na descrição do produto).
 * Corrigir coluna “smartphone model” quando não se pode utilizar o split(‘,’).
 * Coletar dados das demais páginas.
+* Incluir rotina de pré commit, incluindo bibliotecas como black, blue, isort, etc.
 * Modularizar a extração, transformação e carregamento
 * Carregar em um banco de dados
 * Utilizar docker neste projeto para que seja possível processa-lo em qualquer computador.
