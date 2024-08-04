@@ -17,6 +17,7 @@ O código funciona da seguinte maneira:
 * Corrigir coluna “smartphone model” quando não se pode utilizar o split(‘,’).
 * Coletar dados das demais páginas.
 * Incluir rotina de pré commit, incluindo bibliotecas como black, blue, isort, etc.
+* Incluir captura de logs através do sentry, loguru
 * Modularizar a extração, transformação e carregamento
 * Carregar em um banco de dados
 * Utilizar docker neste projeto para que seja possível processa-lo em qualquer computador.
