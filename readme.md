@@ -2,16 +2,18 @@
 
 Este projeto utiliza Selenium para fazer web scraping de informações sobre smartphones no site Kabum. O script Python coleta informações como modelo do smartphone, descrição, RAM, câmera e tela.
 
-O código funciona da seguinte maneira:
+### Até o momento este projeto realiza as seguintes tarefas:
 
 1. Utiliza o Selenium para abrir o Firefox e acessar a URL especificada.
-2. Encontra todos os elementos da página que correspondem à classe CSS dos cartões de produto.
-3. Para cada produto, extrai as informações relevantes (modelo, descrição, RAM, câmera e tela) e as armazena em um dicionário.
-4. Utiliza expressões regulares para extrair informações específicas do texto da descrição.
-5. Adiciona o dicionário de informações do produto a um DataFrame do pandas.
 
 ### To do:
 
+
+* Incluir rotinas de testes com pytest, taskipy
+* Encontrar todos os elementos da página que correspondem à classe CSS dos cartões de produto.
+* Para cada produto, extrair as informações relevantes (modelo, descrição, RAM, câmera e tela) e as armazena em um dicionário.
+* Utilizar expressões regulares para extrair informações específicas do texto da descrição.
+* Adicionar o dicionário de informações do produto a um DataFrame do pandas.
 * Incluir coluna de cor do smartphone (se houver na descrição do produto).
 * Incluir coluna do processador do smartphone (se houver na descrição do produto).
 * Corrigir coluna “smartphone model” quando não se pode utilizar o split(‘,’).
