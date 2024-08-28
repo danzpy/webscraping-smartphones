@@ -12,10 +12,12 @@ pandas = "^2.1.4"
 requests = "^2.32.3"
 beautifulsoup4 = "^4.12.3"
 
-
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.28.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+test = "pytest tests -v"
