@@ -1,10 +1,11 @@
 import requests
 
+
 def test_status_code_200():
-    '''
+    """
     Verifica se a conexão com a url foi bem sucedida.
-    '''
-    url = 'https://www.kabum.com.br/celular-smartphone/smartphones'
+    """
+    url = "https://www.kabum.com.br/celular-smartphone/smartphones"
 
     response = requests.get(url)
 

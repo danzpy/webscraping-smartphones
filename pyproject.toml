@@ -11,6 +11,10 @@ selenium = "^4.16.0"
 pandas = "^2.1.4"
 requests = "^2.32.3"
 beautifulsoup4 = "^4.12.3"
+taskipy = "^1.13.0"
+pytest = "^8.3.2"
+pre-commit = "^3.8.0"
+black = "^24.8.0"
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.28.0"
@@ -21,3 +25,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
 test = "pytest tests -v"
+format = "blue ."
