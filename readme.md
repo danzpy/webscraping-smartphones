@@ -17,7 +17,6 @@ Este projeto utiliza Selenium para fazer web scraping de informações sobre sma
 * Incluir coluna de cor do smartphone (se houver na descrição do produto).
 * Incluir coluna do processador do smartphone (se houver na descrição do produto).
 * Coletar dados das demais páginas.
-* Incluir rotina de pré commit, incluindo bibliotecas como black, blue, isort, etc.
 * Incluir captura de logs através do sentry, loguru
 * Modularizar a extração, transformação e carregamento
 * Carregar em um banco de dados
