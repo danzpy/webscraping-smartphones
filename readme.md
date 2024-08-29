@@ -7,6 +7,7 @@ Este projeto utiliza Selenium para fazer web scraping de informações sobre sma
 1. Utiliza o Selenium para abrir o Firefox e acessar a URL especificada.
 2. Inclui rotinas de testes com pytest, taskipy
 3. Encontra todos os elementos da página que correspondem à classe CSS dos cartões de produto.
+4. Inclui rotina de pré commit, utilizando black e outros hooks.
 
 ### To do:
 
