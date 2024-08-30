@@ -9,19 +9,18 @@ Este projeto utiliza Selenium para fazer web scraping de informações sobre sma
 3. Realiza a extração das demais páginas existentes na URL especificada.
 4. Inclui rotinas de testes com pytest, taskipy
 5. Inclui rotina de pré commit, utilizando black e outros hooks.
+6. Armazena dados brutos em um CSV.
 
 ### To do:
 
 * Documentar métodos e classes utilizando docstrings.
-* Para cada produto, extrair as informações relevantes (modelo, descrição, RAM, câmera e tela) e as armazena em um dicionário.
-* Utilizar expressões regulares para extrair informações específicas do texto da descrição.
-* Adicionar o dicionário de informações do produto a um DataFrame do pandas.
+* Para cada produto, extrair as informações relevantes (modelo, descrição, RAM, câmera, tela) utilizando expreções regulares.
 * Incluir coluna de cor do smartphone (se houver na descrição do produto).
 * Incluir coluna do processador do smartphone (se houver na descrição do produto).
 * Incluir captura de logs através do sentry, loguru
 * Modularizar a extração, transformação e carregamento
-* Carregar em um banco de dados
 * Utilizar docker neste projeto para que seja possível processa-lo em qualquer computador.
+* Carregar informações já tratadas em um banco de dados
 * Atualizar README.md, incluindo todo o passo a passo de como reproduzir o projeto.
 * Criar uma imagem que descreva o workflow do projeto.
 * Fazer uma documentação do projeto utilizando Mkdocs.

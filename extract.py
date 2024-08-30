@@ -108,5 +108,9 @@ chrome = Navegador(options)
 
 dados = chrome.scraping()
 dados.to_csv(
-    "informacoes-smartphones.csv", sep="|", encoding="utf-8", header=True, index=False
+    "/data/informacoes-smartphones.csv",
+    sep="|",
+    encoding="utf-8",
+    header=True,
+    index=False,
 )
