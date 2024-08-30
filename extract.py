@@ -21,7 +21,7 @@ class CustomOptions:
         self.chrome_options.add_argument("--headless")
 
     def espera(self, driver):
-        self.tempo = 15
+        self.tempo = 30
         return WebDriverWait(driver, self.tempo)
 
 
@@ -33,6 +33,7 @@ class Navegador:
         self.pagina = 1
         self.itens_por_pagina = 100
         self.base_url = "https://www.kabum.com.br/celular-smartphone/smartphones"
+        self.dados_coletados = {"titulo": [], "preco": [], "link": []}
 
     def acessar_url(self, url=None) -> None:
         if url is None:
@@ -53,9 +54,11 @@ class Navegador:
             elemento = cartao.find_element(By.CSS_SELECTOR, valor)
 
             if chave != "preco":
-                print(elemento.get_attribute(acessar_pelo[chave]))
+                self.dados_coletados[chave].append(
+                    elemento.get_attribute(acessar_pelo[chave])
+                )
             else:
-                print(elemento.text)
+                self.dados_coletados[chave].append(elemento.text)
 
     def coletar_cartoes(self) -> None:
         espera = self.options.espera(self.driver)
@@ -67,7 +70,6 @@ class Navegador:
 
         for cartao in cartoes:
             self.coletar_informacoes(cartao)
-            # adicionar método de armazenamento das informações
 
     def valida_ultima_pagina(self) -> bool:
         espera = self.options.espera(self.driver)
@@ -77,7 +79,9 @@ class Navegador:
             )
 
             if ultima_pagina:
-                print(f"Cheguei na última página: {self.pagina}")
+                print(
+                    f"Cheguei na última página: {self.pagina}.\nDados extraídos com sucesso."
+                )
                 return True
         except:
             pass
@@ -87,17 +91,22 @@ class Navegador:
         proxima_pagina = f"{self.base_url}?page_number={self.pagina}&page_size={self.itens_por_pagina}&facet_filters=&sort=most_searched"
         self.acessar_url(proxima_pagina)
 
-    def scraping(self) -> None:
+    def scraping(self) -> pd.DataFrame:
         self.acessar_url()
         while True:
+            self.coletar_cartoes()
             if self.valida_ultima_pagina():
                 break
             else:
-                self.coletar_cartoes()
                 self.proxima_pagina()
+
+        return pd.DataFrame(self.dados_coletados)
 
 
 options = CustomOptions()
 chrome = Navegador(options)
 
-chrome.scraping()
+dados = chrome.scraping()
+dados.to_csv(
+    "informacoes-smartphones.csv", sep="|", encoding="utf-8", header=True, index=False
+)
