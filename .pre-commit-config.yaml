@@ -13,3 +13,10 @@ repos:
     rev: 24.1.1
     hooks:
       - id: black
+  - repo: local
+    hooks:
+      - id: add-changes
+        name: Add changes after hooks
+        entry: git add .
+        language: system
+        always_run: true

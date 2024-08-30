@@ -12,17 +12,16 @@ chrome_options.add_argument("--allow-insecure-localhost")
 chrome_options.add_argument("--log-level=3")
 # chrome_options.add_argument("--headless")
 
-url = "https://www.kabum.com.br/celular-smartphone/smartphones"
+url = "https://www.kabum.com.br/celular-smartphone/smartphones?page_number=19&page_size=100&facet_filters=&sort=most_searched"
 
 driver = webdriver.Chrome(options=chrome_options)
 wait = WebDriverWait(driver, 30)
 driver.get(url)
 
-info = wait.until(
-    EC.presence_of_all_elements_located(
-        (By.CSS_SELECTOR, ".sc-a638aad9-7.FeKTN.productCard")
-    )
-)
+driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-for i in info:
-    print(i.text)
+info = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "li.next.disabled")))
+
+print(info)
+
+print(not info)
