@@ -13,7 +13,6 @@ Este projeto utiliza Selenium para fazer web scraping de informações sobre sma
 
 ### To do:
 
-* Documentar métodos e classes utilizando docstrings.
 * Para cada produto, extrair as informações relevantes (modelo, descrição, RAM, câmera, tela) utilizando expreções regulares.
 * Incluir coluna de cor do smartphone (se houver na descrição do produto).
 * Incluir coluna do processador do smartphone (se houver na descrição do produto).
@@ -24,3 +23,4 @@ Este projeto utiliza Selenium para fazer web scraping de informações sobre sma
 * Atualizar README.md, incluindo todo o passo a passo de como reproduzir o projeto.
 * Criar uma imagem que descreva o workflow do projeto.
 * Fazer uma documentação do projeto utilizando Mkdocs.
+* Identificar alguma forma de reduzir o tempo de extração.
