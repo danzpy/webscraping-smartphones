@@ -27,7 +27,7 @@ class CustomOptions:
         self.chrome_options.add_argument(
             "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
         )
-        self.chrome_options.add_argument("--headless")
+        # self.chrome_options.add_argument("--headless")
 
     def espera(self, driver) -> WebDriverWait:
         """
@@ -43,7 +43,7 @@ class CustomOptions:
         WebDriverWait
             Instância configurada de WebDriverWait.
         """
-        self.tempo = 40
+        self.tempo = 60
         return WebDriverWait(driver, self.tempo)
 
 
@@ -111,7 +111,7 @@ class Navegador:
         seletores = {
             "titulo": "img[title]",
             "preco": ".sc-b1f5eb03-2.iaiQNF.priceCard",
-            "link": ".sc-a638aad9-10.hLaXrL.productLink",
+            "link": ".sc-d43e0d1-10.iruypF.productLink",
         }
 
         acessar_pelo = {"titulo": "title", "preco": "text", "link": "href"}
@@ -137,7 +137,7 @@ class Navegador:
         espera = self.options.espera(self.driver)
         cartoes = espera.until(
             EC.presence_of_all_elements_located(
-                (By.CSS_SELECTOR, ".sc-a638aad9-7.FeKTN.productCard")
+                (By.CSS_SELECTOR, ".sc-d43e0d1-7.cLeHop.productCard")
             )
         )
 
@@ -211,7 +211,7 @@ class Navegador:
 
         dados.to_csv(
             file_path,
-            sep="|",
+            sep=";",
             encoding="utf-8",
             header=True,
             index=False,

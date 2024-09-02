@@ -23,4 +23,6 @@ Este projeto utiliza Selenium para fazer web scraping de informações sobre sma
 * Atualizar README.md, incluindo todo o passo a passo de como reproduzir o projeto.
 * Criar uma imagem que descreva o workflow do projeto.
 * Fazer uma documentação do projeto utilizando Mkdocs.
-* Identificar alguma forma de reduzir o tempo de extração.
+* Identificar alguma forma de reduzir o tempo de extração (Tentar debugar adicionando logs de informação, na qual printe em qual etapa está procurando. Assim será evidente identificar o gargalo.)
+* Tentar alterar a forma em que os elementos são procurados. Se caso não encontre algum, pule pro próximo (para dar tempo do que está ausente aparecer).
+* Durante a execução do projeto, a estrutura do site mudou e algumas classes foram alteradas. Deixar isso evidente em algum lugar.
