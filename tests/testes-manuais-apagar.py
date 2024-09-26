@@ -19,15 +19,33 @@ driver = webdriver.Chrome(options=chrome_options)
 wait = WebDriverWait(driver, 30)
 driver.get(url)
 
+
+expandir = ".filterExpand"
+
+filtros = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, expandir)))
+
+
+for filtro in filtros:
+    print(filtro)
+    print("")
+    filtro.click()
+
+
 # driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-infos = wait.until(
-    EC.presence_of_all_elements_located(
-        (By.CSS_SELECTOR, ".sc-d43e0d1-7.cLeHop.productCard")
-    )
-)
+# c = ".sc-650252cf-2.hWvIRX.filterContent"
+# c2 = '.sc-650252cf-3.dNkUXq'
+# c3 = '.filterOption'
 
-for info in infos:
-    elemento = info.find_element(By.CSS_SELECTOR, ".sc-d43e0d1-10.iruypF.productLink")
+# infos = wait.until(
+#     EC.presence_of_all_elements_located(
+#         (By.CSS_SELECTOR, c3)
+#     )
+# )
 
-    print(elemento.get_attribute("href"))
+# for info in infos:
+# print(info)
+# print(info.text)
+#     elemento = info.find_element(By.CSS_SELECTOR, ".sc-650252cf-3.dNkUXq")
+
+#     print(elemento.text)

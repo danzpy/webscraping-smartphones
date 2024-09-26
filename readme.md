@@ -13,7 +13,7 @@ Este projeto utiliza Selenium para fazer web scraping de informações sobre sma
 
 ### To do:
 
-* Para cada produto, extrair as informações relevantes (modelo, descrição, RAM, câmera, tela) utilizando expreções regulares.
+* Para cada produto, extrair as informações relevantes (modelo, descrição, RAM, câmera, tela) utilizando expreções regulares. (Utilizar informações presentes nos filtros e localiza-las na descrição.)
 * Incluir coluna de cor do smartphone (se houver na descrição do produto).
 * Incluir coluna do processador do smartphone (se houver na descrição do produto).
 * Incluir captura de logs através do sentry, loguru
