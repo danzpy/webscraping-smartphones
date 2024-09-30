@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
+from time import sleep
 
 
 chrome_options = Options()
@@ -16,36 +17,24 @@ chrome_options.add_argument("--log-level=3")
 url = "https://www.kabum.com.br/celular-smartphone/smartphones?page_number=1&page_size=100&facet_filters=&sort=most_searched"
 
 driver = webdriver.Chrome(options=chrome_options)
-wait = WebDriverWait(driver, 30)
+wait = WebDriverWait(driver, 5)
 driver.get(url)
 
 
-expandir = ".filterExpand"
+try:
+    ver_mais_button = driver.find_element(By.XPATH, "(//span[text()='Ver mais'])[2]")
+    driver.execute_script("arguments[0].click();", ver_mais_button)
 
-filtros = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, expandir)))
+    secoes_cor = driver.find_elements(
+        By.XPATH, "//summary[contains(text(), 'Cor')]/following-sibling::div//label"
+    )
 
+    print(secoes_cor)
 
-for filtro in filtros:
-    print(filtro)
-    print("")
-    filtro.click()
+    for secao in secoes_cor:
+        cor = secao.text
+        print(f"Cor encontrada: {cor}")
 
-
-# driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
-# c = ".sc-650252cf-2.hWvIRX.filterContent"
-# c2 = '.sc-650252cf-3.dNkUXq'
-# c3 = '.filterOption'
-
-# infos = wait.until(
-#     EC.presence_of_all_elements_located(
-#         (By.CSS_SELECTOR, c3)
-#     )
-# )
-
-# for info in infos:
-# print(info)
-# print(info.text)
-#     elemento = info.find_element(By.CSS_SELECTOR, ".sc-650252cf-3.dNkUXq")
-
-#     print(elemento.text)
+    print("Botão 'Ver mais' foi clicado com sucesso.")
+except Exception as e:
+    print(f"Erro ao tentar clicar no botão: {e}")
