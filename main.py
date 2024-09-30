@@ -1,6 +1,5 @@
 from extract.extract import CustomOptions, Navegador
 
-
 options = CustomOptions()
 chrome = Navegador(options)
 

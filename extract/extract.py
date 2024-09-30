@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
+from time import sleep
 import os
 
 
@@ -75,7 +76,13 @@ class Navegador:
         self.pagina = 1
         self.itens_por_pagina = 100
         self.base_url = "https://www.kabum.com.br/celular-smartphone/smartphones"
-        self.dados_coletados = {"titulo": [], "preco": [], "link": []}
+        self.dados_coletados = {
+            "titulo": [],
+            "preco": [],
+            "link": [],
+            "cores_produtos": [],
+            "marcas_produtos": [],
+        }
 
     def acessar_url(self, url=None) -> None:
         """
@@ -110,8 +117,8 @@ class Navegador:
 
         seletores = {
             "titulo": "img[title]",
-            "preco": ".sc-b1f5eb03-2.iaiQNF.priceCard",
-            "link": ".sc-d43e0d1-10.iruypF.productLink",
+            "preco": ".sc-84f95ca7-2.jJMtJn.priceCard",
+            "link": ".sc-29475b83-10.gyEhLi.productLink",
         }
 
         acessar_pelo = {"titulo": "title", "preco": "text", "link": "href"}
@@ -137,12 +144,59 @@ class Navegador:
         espera = self.options.espera(self.driver)
         cartoes = espera.until(
             EC.presence_of_all_elements_located(
-                (By.CSS_SELECTOR, ".sc-d43e0d1-7.cLeHop.productCard")
+                (By.CSS_SELECTOR, ".sc-29475b83-7.aikTu.productCard")
             )
         )
 
         for cartao in cartoes:
             self.coletar_informacoes(cartao)
+
+    def expande_filtros(self) -> None:
+        espera = self.options.espera(self.driver)
+        self.driver.execute_script("window.scrollTo(0, 1000)")
+        sleep(3)
+        ver_mais_cores = espera.until(
+            EC.presence_of_element_located((By.XPATH, "(//span[text()='Ver mais'])[2]"))
+        )
+        ver_mais_marcas = espera.until(
+            EC.presence_of_element_located((By.XPATH, "(//span[text()='Ver mais'])[1]"))
+        )
+        self.driver.execute_script(
+            "arguments[0].click(); arguments[1].click();",
+            ver_mais_cores,
+            ver_mais_marcas,
+        )
+
+    def coletar_filtros(self) -> None:
+        """
+        Coleta as informações presentes nos filtros da página para facilitar a identificação das
+        características presentes no resumo do produto.
+
+        Retorna:
+        ---------
+        None
+        """
+        self.expande_filtros()
+
+        secoes_cor = self.driver.find_elements(
+            By.XPATH, "//summary[contains(text(), 'Cor')]/following-sibling::div//label"
+        )
+        secoes_marca = self.driver.find_elements(
+            By.XPATH,
+            "//summary[contains(text(), 'Marcas')]/following-sibling::div//label",
+        )
+
+        for secao in secoes_cor:
+            cor = secao.text
+            self.dados_coletados["cores_produtos"].append(cor)
+
+        for secao in secoes_marca:
+            marca = secao.text
+            self.dados_coletados["marcas_produtos"].append(marca)
+
+        print(self.dados_coletados["cores_produtos"])
+        print(self.dados_coletados["marcas_produtos"])
+        print("Filtros coletados com sucesso.")
 
     def valida_ultima_pagina(self) -> bool:
         """
@@ -188,6 +242,7 @@ class Navegador:
         None
         """
         self.acessar_url()
+        self.coletar_filtros()
         while True:
             self.coletar_cartoes()
             print(f"Coleta da página {self.pagina} realizada com sucesso..")

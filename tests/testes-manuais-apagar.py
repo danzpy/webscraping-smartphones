@@ -20,10 +20,25 @@ driver = webdriver.Chrome(options=chrome_options)
 wait = WebDriverWait(driver, 5)
 driver.get(url)
 
+cores = []
+marcas = []
 
 try:
-    ver_mais_button = driver.find_element(By.XPATH, "(//span[text()='Ver mais'])[2]")
-    driver.execute_script("arguments[0].click();", ver_mais_button)
+    driver.execute_script("window.scrollTo(0, 900)")
+    # ver_mais_cores = driver.find_element(By.XPATH, "(//span[text()='Ver mais'])[2]")
+    # ver_mais_marcas = driver.find_element(By.XPATH, "(//span[text()='Ver mais'])[1]")
+
+    espera = WebDriverWait(driver, 10)
+    ver_mais_cores = espera.until(
+        EC.presence_of_element_located((By.XPATH, "(//span[text()='Ver mais'])[2]"))
+    )
+    ver_mais_marcas = espera.until(
+        EC.presence_of_element_located((By.XPATH, "(//span[text()='Ver mais'])[1]"))
+    )
+    print(ver_mais_cores)
+    driver.execute_script(
+        "arguments[0].click(); arguments[1].click();", ver_mais_cores, ver_mais_marcas
+    )
 
     secoes_cor = driver.find_elements(
         By.XPATH, "//summary[contains(text(), 'Cor')]/following-sibling::div//label"
@@ -34,6 +49,16 @@ try:
     for secao in secoes_cor:
         cor = secao.text
         print(f"Cor encontrada: {cor}")
+        cores.append(cor)
+
+    secoes_marca = driver.find_elements(
+        By.XPATH, "//summary[contains(text(), 'Marcas')]/following-sibling::div//label"
+    )
+
+    for secao in secoes_marca:
+        marca = secao.text
+        print(f"Marca encontrada: {marca}")
+        marcas.append(marca)
 
     print("Botão 'Ver mais' foi clicado com sucesso.")
 except Exception as e:
