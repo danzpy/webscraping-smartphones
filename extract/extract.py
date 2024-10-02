@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 from time import sleep
 import os
+import json
 
 
 class CustomOptions:
@@ -76,10 +77,8 @@ class Navegador:
         self.pagina = 1
         self.itens_por_pagina = 100
         self.base_url = "https://www.kabum.com.br/celular-smartphone/smartphones"
-        self.dados_coletados = {
-            "titulo": [],
-            "preco": [],
-            "link": [],
+        self.dados_coletados = {"titulo": [], "preco": [], "link": []}
+        self.filtros = {
             "cores_produtos": [],
             "marcas_produtos": [],
         }
@@ -116,22 +115,25 @@ class Navegador:
         """
 
         seletores = {
-            "titulo": "img[title]",
-            "preco": ".sc-84f95ca7-2.jJMtJn.priceCard",
-            "link": ".sc-29475b83-10.gyEhLi.productLink",
+            "titulo": ".//img[@class='imageCard']",
+            "preco": ".//span[@class='sc-84f95ca7-2 jJMtJn priceCard']",
+            "link": ".//a[@class='sc-29475b83-10 gyEhLi productLink']",
         }
 
         acessar_pelo = {"titulo": "title", "preco": "text", "link": "href"}
 
         for chave, valor in seletores.items():
-            elemento = cartao.find_element(By.CSS_SELECTOR, valor)
+            try:
+                elemento = cartao.find_element(By.XPATH, valor)
 
-            if chave != "preco":
-                self.dados_coletados[chave].append(
-                    elemento.get_attribute(acessar_pelo[chave])
-                )
-            else:
-                self.dados_coletados[chave].append(elemento.text)
+                if chave != "preco":
+                    self.dados_coletados[chave].append(
+                        elemento.get_attribute(acessar_pelo[chave])
+                    )
+                else:
+                    self.dados_coletados[chave].append(elemento.text)
+            except:
+                self.dados_coletados[chave].append("Não disponível")
 
     def coletar_cartoes(self) -> None:
         """
@@ -188,14 +190,14 @@ class Navegador:
 
         for secao in secoes_cor:
             cor = secao.text
-            self.dados_coletados["cores_produtos"].append(cor)
+            self.filtros["cores_produtos"].append(cor)
 
         for secao in secoes_marca:
             marca = secao.text
-            self.dados_coletados["marcas_produtos"].append(marca)
+            self.filtros["marcas_produtos"].append(marca)
 
-        print(self.dados_coletados["cores_produtos"])
-        print(self.dados_coletados["marcas_produtos"])
+        print(self.filtros["cores_produtos"])
+        print(self.filtros["marcas_produtos"])
         print("Filtros coletados com sucesso.")
 
     def valida_ultima_pagina(self) -> bool:
@@ -210,7 +212,9 @@ class Navegador:
         espera = self.options.espera(self.driver)
         try:
             ultima_pagina = espera.until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "li.next.disabled"))
+                EC.presence_of_element_located(
+                    (By.XPATH, "//li[@class='next disabled']")
+                )
             )
 
             if ultima_pagina:
@@ -262,12 +266,21 @@ class Navegador:
         dados = pd.DataFrame(self.dados_coletados)
 
         data_directory = "data"
-        file_path = os.path.join(data_directory, "informacoes-smartphones.csv")
 
         dados.to_csv(
-            file_path,
+            os.path.join(data_directory, "informacoes-smartphones.csv"),
             sep=";",
             encoding="utf-8",
             header=True,
             index=False,
         )
+
+        filtros = {
+            "cores": self.filtros["cores_produtos"],
+            "marcas": self.filtros["marcas_produtos"],
+        }
+
+        json_filtros = json.dumps(filtros, indent=4)
+
+        with open(os.path.join(data_directory, "filtros.json"), "w") as outfile:
+            outfile.write(json_filtros)
