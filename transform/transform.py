@@ -1,15 +1,9 @@
 import pandas as pd
 import re
+import json
+import numpy as np
 
 dados = pd.read_csv("data/informacoes-smartphones.csv", encoding="utf-8", sep=";")
-
-# print(
-#     dados[
-#         ~dados["titulo"].str.contains(r"\b(1[0-2]|[1-9])gb\b", case=False, regex=True)
-#     ]
-# )
-
-# Utilizar metodo .extract para coletar informação e adiciona-la em uma nova coluna.
 
 
 def memoria_ram(df) -> pd.DataFrame:
@@ -38,10 +32,68 @@ def armazenamento(df) -> pd.DataFrame:
     return df
 
 
+def encontra_palavra(titulo, lista):
+
+    flag = [elemento for elemento in lista if elemento.lower() + " " in titulo.lower()]
+
+    if flag:
+        return str(flag)[1:-1]
+    else:
+        return ""
+
+
+def cor(df):
+
+    with open("data/filtros.json", "r") as file:
+        data = json.load(file)
+
+    cores = data["cores"]
+
+    df["cor"] = df["titulo"].apply(lambda titulo: encontra_palavra(titulo, cores))
+    df["cor"] = df["cor"].str.replace("'", "")
+
+    return df
+
+
+def marca(df):
+
+    with open("data/filtros.json", "r") as file:
+        data = json.load(file)
+
+    marca = data["marcas"]
+
+    df["marca"] = df["titulo"].apply(lambda titulo: encontra_palavra(titulo, marca))
+    df["marca"] = df["marca"].str.replace("'", "")
+
+    return df
+
+
+def verifica_estado(titulo, lista):
+    flag = [elemento for elemento in lista if elemento.lower() in titulo.lower()]
+
+    if flag:
+        return str(flag)[1:-1]
+    else:
+        return "Novo"
+
+
+def estado(df):
+
+    estado = ["Usado"]
+
+    df["estado"] = df["titulo"].apply(lambda titulo: verifica_estado(titulo, estado))
+    df["estado"] = df["estado"].str.replace("'", "")
+
+    return df
+
+
 def transform(df) -> pd.DataFrame:
 
     df = memoria_ram(df)
     df = armazenamento(df)
+    df = cor(df)
+    df = marca(df)
+    df = estado(df)
 
     return df
 
