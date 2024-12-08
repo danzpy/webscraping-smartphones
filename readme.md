@@ -10,6 +10,7 @@ Este projeto utiliza Selenium para fazer web scraping de informações sobre sma
 4. Inclui rotinas de testes com pytest, taskipy
 5. Inclui rotina de pré commit, utilizando black e outros hooks.
 6. Armazena dados brutos em um CSV.
+7. Extrai informações mesmo quando os elementos são atualizados dinamicamente.
 
 ### To do:
 
@@ -26,4 +27,3 @@ Este projeto utiliza Selenium para fazer web scraping de informações sobre sma
 * Identificar alguma forma de reduzir o tempo de extração (Tentar debugar adicionando logs de informação, na qual printe em qual etapa está procurando. Assim será evidente identificar o gargalo.)
 * Tentar alterar a forma em que os elementos são procurados. Se caso não encontre algum, pule pro próximo (para dar tempo do que está ausente aparecer).
 * Durante a execução do projeto, a estrutura do site mudou e algumas classes foram alteradas. Deixar isso evidente em algum lugar.
-* Tentar adicionar alguma forma de extrair automaticamente as classes que se atualizam, com um XPATH que contenha alguma palavra em específica (ex: productCard), coisas que facilitem a extração sem precisar atualizar o código.

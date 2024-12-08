@@ -29,7 +29,7 @@ class CustomOptions:
         self.chrome_options.add_argument(
             "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
         )
-        # self.chrome_options.add_argument("--headless")
+        self.chrome_options.add_argument("--headless")
 
     def espera(self, driver) -> WebDriverWait:
         """
@@ -115,9 +115,9 @@ class Navegador:
         """
 
         seletores = {
-            "titulo": ".//img[@class='imageCard']",
-            "preco": ".//span[@class='sc-84f95ca7-2 jJMtJn priceCard']",
-            "link": ".//a[@class='sc-29475b83-10 gyEhLi productLink']",
+            "titulo": ".//img[contains(@class, 'imageCard')]",
+            "preco": ".//span[contains(@class, 'priceCard')]",
+            "link": ".//a[contains(@class, 'productLink')]",
         }
 
         acessar_pelo = {"titulo": "title", "preco": "text", "link": "href"}
@@ -146,7 +146,7 @@ class Navegador:
         espera = self.options.espera(self.driver)
         cartoes = espera.until(
             EC.presence_of_all_elements_located(
-                (By.CSS_SELECTOR, ".sc-29475b83-7.aikTu.productCard")
+                (By.XPATH, ".//article[contains(@class, 'productCard')]")
             )
         )
 
