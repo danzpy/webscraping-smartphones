@@ -19,7 +19,7 @@ def memoria_ram(df) -> pd.DataFrame:
 def armazenamento(df) -> pd.DataFrame:
 
     # O padrões abaixo foram encontrados com auxílio de inteligência artificial.
-    # pattern_gb = r"\b([1-9]\d{1,2}|1[6-9])\s*[gG][bB]\b"
+
     pattern_gb = r"\b(1[6-9]|[2-9]\d|\d{3})\s*[gG][bB]\b"
     pattern_tb = r"\b1\s*[tT][bB]\b"
 
@@ -87,6 +87,17 @@ def estado(df):
     return df
 
 
+def tela(df):
+
+    # O padrão abaixo foi encontrado com auxílio de inteligência artificial.
+    pattern = r".*?(tela[\s\w\+\-\.]*\d+[\w\s\.\-]*)"
+
+    df["tela"] = df["titulo"].str.extract(pattern, flags=re.IGNORECASE)
+    df["tela"] = df["tela"].str.replace(r"(\d+(\.\d+)?)[\w\s]*", r"\1", regex=True)
+
+    return df
+
+
 def transform(df) -> pd.DataFrame:
 
     df = memoria_ram(df)
@@ -94,6 +105,7 @@ def transform(df) -> pd.DataFrame:
     df = cor(df)
     df = marca(df)
     df = estado(df)
+    df = tela(df)
 
     return df
 
