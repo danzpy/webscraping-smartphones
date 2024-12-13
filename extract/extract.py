@@ -3,10 +3,15 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import sys
+from loguru import logger
 import pandas as pd
 from time import sleep
 import os
 import json
+
+logger.remove()
+logger.add(sys.stderr, format="{time:HH:mm:ss} | {level} | {message}")
 
 
 class CustomOptions:
@@ -45,7 +50,7 @@ class CustomOptions:
         WebDriverWait
             Instância configurada de WebDriverWait.
         """
-        self.tempo = 60
+        self.tempo = 40
         return WebDriverWait(driver, self.tempo)
 
 
@@ -196,9 +201,7 @@ class Navegador:
             marca = secao.text
             self.filtros["marcas_produtos"].append(marca)
 
-        print(self.filtros["cores_produtos"])
-        print(self.filtros["marcas_produtos"])
-        print("Filtros coletados com sucesso.")
+        logger.info("Filtros coletados com sucesso.")
 
     def valida_ultima_pagina(self) -> bool:
         """
@@ -218,7 +221,7 @@ class Navegador:
             )
 
             if ultima_pagina:
-                print(
+                logger.info(
                     f"Cheguei na última página: {self.pagina}.\nDados extraídos com sucesso."
                 )
                 return True
@@ -249,7 +252,9 @@ class Navegador:
         self.coletar_filtros()
         while True:
             self.coletar_cartoes()
-            print(f"Coleta da página {self.pagina} realizada com sucesso..")
+
+            logger.info(f"Coleta da página {self.pagina} realizada com sucesso..")
+
             if self.valida_ultima_pagina():
                 break
             else:
